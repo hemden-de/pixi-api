@@ -21,5 +21,17 @@
     "test-unit": [
       "vendor/bin/phpunit tests"
     ]
+  },
+  "repositories": {
+    "drinks-it/pixi-factory": {
+      "type": "vcs",
+      "url": "https://github.com/hemden-de/pixi-factory.git",
+      "canonical": false
+    },
+    "drinks-it/pixi-saxparser": {
+      "type": "vcs",
+      "url": "https://github.com/hemden-de/pixi-saxparser.git",
+      "canonical": false
+    }
   }
 }
