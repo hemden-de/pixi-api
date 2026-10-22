@@ -135,6 +135,7 @@ class Client extends \SoapClient
      * @param string $action
      * @param int $version
      * @param int $oneWay
+     * @param string|null $uriParserClass Seit PHP 8.5 Teil der Signatur von SoapClient::__doRequest
      * @return string
      */
     public function __doRequest(
@@ -142,7 +143,8 @@ class Client extends \SoapClient
         string $location,
         string $action,
         int $version,
-        bool $oneWay = false
+        bool $oneWay = false,
+        ?string $uriParserClass = null
     ): string
     {
         if ($this->transportObject) {
