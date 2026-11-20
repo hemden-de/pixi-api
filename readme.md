@@ -6,6 +6,25 @@ The Soap library is based on the PHP Soap extension that is available in PHP ver
 This library is based on the syntax that was used in the Apps-Framework on pixi but is now decoupled and can be used in any other project as well.  
   
   
+## Fork hemden-de
+
+-----
+Dieser Fork wird von hemden.de gepflegt und von app.hemden.de als `drinks-it/pixi-api` (dev-master) eingebunden.
+Er verlangt PHP ^8.3. Die Tests laufen per GitHub Actions unter PHP 8.4 und 8.5.
+
+### CurlTransport ist unter PHP 8 nicht lauffähig
+
+Der optionale Transport über `setTransportObject()` funktioniert unter PHP 8 nicht und wird von app.hemden.de nicht genutzt.
+Ohne Transport-Objekt nutzt der Client den normalen `SoapClient::__doRequest`, und nur dieser Weg ist getestet.
+
+- `pixi-saxparser` ruft in `Sax.php` `get_resource_type()` auf einem `XMLParser`-Objekt auf. Seit PHP 8 ist das ein Fatal Error.
+- `CurlParserListener` braucht `symfony/event-dispatcher`, das in `composer.json` nicht als Abhängigkeit steht.
+
+Die zugehörigen Tests waren seit 2021 per `markTestSkipped()` abgeschaltet und sind seit November 2026 entfernt.
+Den Code (`Transport/CurlTransport.php`, `ParserListener/CurlParserListener.php`, den `transportObject`-Zweig in
+`Client::__doRequest` und die ungenutzte Property `$useCurl`) haben wir vorerst bewusst stehen lassen.
+
+
 ## Quick Start  
   
 -----  
