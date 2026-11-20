@@ -124,7 +124,7 @@ class Client extends \SoapClient
                 ]
             );
 
-            stream_context_set_option($this->headerStream, $context);
+            stream_context_set_options($this->headerStream, $context);
 
             $this->content = $this->getResultObject();
 

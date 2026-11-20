@@ -34,7 +34,6 @@ class OptionsTest extends TestCase
 
         $reflectionClass = new \ReflectionClass('Pixi\API\Soap\Options');
         $property = $reflectionClass->getProperty('options');
-        $property->setAccessible(true);
 
         $options = new Options('username', 'password', 'uri', 'location', true);
 
@@ -63,7 +62,6 @@ class OptionsTest extends TestCase
     {
         $reflectionClass = new \ReflectionClass(Options::class);
         $property = $reflectionClass->getProperty('options');
-        $property->setAccessible(true);
 
         $options = new Options('username', 'password', 'uri');
         $options->setLogin('newUsername');
@@ -79,7 +77,6 @@ class OptionsTest extends TestCase
     {
         $reflectionClass = new \ReflectionClass(Options::class);
         $property = $reflectionClass->getProperty('options');
-        $property->setAccessible(true);
 
         $options = new Options('username', 'password', 'uri');
         $options->setPassword('newPassword');
@@ -95,7 +92,6 @@ class OptionsTest extends TestCase
     {
         $reflectionClass = new \ReflectionClass(Options::class);
         $property = $reflectionClass->getProperty('options');
-        $property->setAccessible(true);
 
         $options = new Options('username', 'password', 'uri');
         $options->setUri('newUri');
@@ -111,7 +107,6 @@ class OptionsTest extends TestCase
     {
         $reflectionClass = new \ReflectionClass(Options::class);
         $property = $reflectionClass->getProperty('options');
-        $property->setAccessible(true);
 
         $options = new Options('username', 'password', 'uri');
         $options->setSslMethod('newSslMethod');
