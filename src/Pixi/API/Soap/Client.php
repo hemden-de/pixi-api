@@ -56,6 +56,15 @@ class Client extends \SoapClient
     public $lastException = false;
 
     /**
+     * Namespace-URI für SoapVar und SOAPAction. SoapClient führt $uri seit PHP 8.1 als private
+     * Property, die Unterklasse muss sie deshalb selbst deklarieren (sonst dynamische Property,
+     * seit PHP 8.2 deprecated).
+     *
+     * @var string|null
+     */
+    public ?string $uri = null;
+
+    /**
      * The constructor is overwritten, so it can be initalized without any parameters
      *
      * @param string|null $wsdl
@@ -67,6 +76,7 @@ class Client extends \SoapClient
         if ($wsdl or $options) {
 
             $this->clientOptions = $options;
+            $this->uri = $options['uri'] ?? null;
 
             if (isset($options['stream_context']) AND is_array($options['stream_context'])) {
                 $this->streamContext = $options['stream_context'];
