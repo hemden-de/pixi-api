@@ -1,43 +1,43 @@
-name: PHP Composer
+name: Tests
 
 on:
   push:
     branches: [ master ]
   pull_request:
     branches: [ master ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
 
 jobs:
-  build:
-
+  phpunit:
     runs-on: ubuntu-latest
 
     strategy:
+      fail-fast: false
       matrix:
-        php: [ '7.1', '8.0' ]
+        # Die Versionen, mit denen app.hemden.de das Paket nutzt.
+        php: [ '8.4', '8.5' ]
+
+    name: PHP ${{ matrix.php }}
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v5
 
-      - name: Validate composer.json and composer.lock
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: curl, soap
+          coverage: none
+          tools: composer:v2
+
+      - name: Validate composer.json
         run: composer validate --strict
 
-      - name: Cache Composer packages
-        id: composer-cache
-        uses: actions/cache@v2
-        with:
-          path: vendor
-          key: ${{ runner.os }}-php-${{ matrix.php }}-${{ hashFiles('**/composer.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-php-${{ matrix.php }}-
-
-      - name: Display versions
-        run: |
-          php -r 'foreach (get_loaded_extensions() as $extension) echo $extension . " " . phpversion($extension) . PHP_EOL;'
-          php -i
-          composer --version
-
       - name: Install dependencies
-        run: composer install --prefer-dist --no-progress
+        run: composer install --prefer-dist --no-progress --no-interaction
 
       - name: Run test suite
-        run: composer run-script test-unit
+        run: vendor/bin/phpunit tests --display-deprecations --display-skipped
