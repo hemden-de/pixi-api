@@ -2,8 +2,6 @@
 
 use PHPUnit\Framework\TestCase;
 use Pixi\API\Soap\Client;
-use Pixi\API\Soap\Result\ArrayResult;
-use Pixi\API\Soap\Transport\CurlTransport;
 
 class ClientTest extends TestCase
 {
@@ -130,81 +128,5 @@ class ClientTest extends TestCase
         $client = new Client(null, $this->options);
 
         $rs = $client->GetShops()->getResultSet();
-    }
-
-    public function testClientWithCurlTransportStringDefinition()
-    {
-        return $this->markTestSkipped();
-
-        $client = new Client(null, $this->options);
-        $client->setTransportObject('\Pixi\API\Soap\Transport\CurlTransport');
-
-        $resultObject = new ArrayResult();
-        $client->setResultObject($resultObject);
-
-        $rs = $client->pixiGetShops()->getResultSet();
-        $this->assertSame($this->expectedResult, $rs);
-    }
-
-    public function testClientWithCurlTransportObjectDefinition()
-    {
-        return $this->markTestSkipped();
-
-        $client = new Client(null, $this->options);
-        $transport = new CurlTransport();
-        $client->setTransportObject($transport);
-
-        $resultObject = new ArrayResult();
-        $client->setResultObject($resultObject);
-
-        $rs = $client->pixiGetShops()->getResultSet();
-        $this->assertSame($this->expectedResult, $rs);
-    }
-
-    public function testClientWithCurlTrasnportObjectThrowingTransportException()
-    {
-        return $this->markTestSkipped();
-
-        $this->expectException(\Pixi\API\Soap\Transport\TransportException::class);
-
-        $client = new Client(null, array_merge($this->options, array(
-            "location" => 'https://soap_nonexisting.pixi.eu/soap/pixiAPP/',
-            "uri"      => 'https://soap_nonexisting.pixi.eu/soap/pixiAPP/',
-        )));
-        $client->setTransportObject('\Pixi\API\Soap\Transport\CurlTransport');
-
-        $resultObject = new ArrayResult();
-        $client->setResultObject($resultObject);
-
-        $client->pixiGetShops()->getResultSet();
-    }
-
-    public function testClientWithCurlTrasnportObjectThrowingCurlSoapFault()
-    {
-        return $this->markTestSkipped();
-
-        $this->expectException(SoapFault::class);
-
-        $client = new Client(null, $this->options);
-        $client->setTransportObject('\Pixi\API\Soap\Transport\CurlTransport');
-
-        $resultObject = new ArrayResult();
-        $client->setResultObject($resultObject);
-
-        $client->ApiCallWhichDoesNotExist()->getResultSet();
-    }
-
-    public function testClientWithCurlTrasnportObjectThrowingResultException()
-    {
-        return $this->markTestSkipped();
-
-        $this->expectException(\Pixi\API\Soap\Result\ResultException::class);
-
-        $client = new Client(null, $this->options);
-        $transport = new CurlTransport();
-        $client->setTransportObject($transport);
-
-        $client->setResultObject('\Pixi\API\Soap\Result\ArrayResult');
-        $client->pixiGetShops(['silvester' => 500])->getResultset();
     }
 }
